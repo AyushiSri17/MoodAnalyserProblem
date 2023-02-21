@@ -8,13 +8,15 @@ namespace MoodAnalyserTestProject
     public class MoodAnalyserTestClass
     {
         [TestMethod]
-        public void Given_Message_Should_Return_UserMood()
+        [DataRow("I am in a sad mood", "sad")] 
+        [DataRow("I am in a happy mood", "happy")]
+        public void Given_Message_Should_Return_UserMood(string message, string expected)
         {
             //AAA Methodology
 
             //Arrange
-            string message = "I am in sad mood";
-            string expected = "sad";
+            //string message = "I am in sad mood";
+            //string expected = "sad";
             MoodAnalyser mood = new MoodAnalyser(message);
 
             //Act
