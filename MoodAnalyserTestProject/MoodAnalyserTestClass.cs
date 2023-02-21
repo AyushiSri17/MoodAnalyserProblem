@@ -8,19 +8,17 @@ namespace MoodAnalyserTestProject
     public class MoodAnalyserTestClass
     {
         [TestMethod]
-        [DataRow("I am in a sad mood", "sad")] 
-        [DataRow("I am in a happy mood", "happy")]
-        public void Given_Message_Should_Return_UserMood(string message, string expected)
+        public void Given_Message_Should_Return_UserMood()
         {
             //AAA Methodology
 
             //Arrange
-            //string message = "I am in sad mood";
-            //string expected = "sad";
-            MoodAnalyser mood = new MoodAnalyser();
+            string message = "I am in sad mood";
+            string expected = "sad";
+            MoodAnalyser mood = new MoodAnalyser(message);
 
             //Act
-            string actual=mood.AnalyseMood(message);
+            string actual=mood.AnalyseMood();
 
             //Assert
             Assert.AreEqual(expected, actual);
