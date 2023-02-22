@@ -26,7 +26,8 @@ namespace MoodAnalyserTestProject
             Assert.AreEqual(expected, actual);
         }
         [TestMethod]
-        [DataRow(null, "Object reference not set to an instance of an object.")]
+        //[DataRow(null, "Object reference not set to an instance of an object.")]
+        [DataRow(null, "happy")]
         public void Given_NullMessage_Should_Return_Exception(string message, string expected)
         {
             //AAA Methodology

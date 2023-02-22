@@ -11,7 +11,7 @@ namespace MoodAnalyserProblem
         string message;
         public MoodAnalyser(string message)
         {
-            this.message = message=null;
+            this.message = message;
         }
         public MoodAnalyser() { }
         public string AnalyseMood()
@@ -23,8 +23,13 @@ namespace MoodAnalyserProblem
                 else
                     return "sad";
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException )
+            {   
+                return "happy";
+            }
+            catch (Exception e) 
             {
+                Console.WriteLine(e.Message);
                 return e.Message;
             }
         }
