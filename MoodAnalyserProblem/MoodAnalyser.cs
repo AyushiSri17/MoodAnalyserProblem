@@ -11,15 +11,22 @@ namespace MoodAnalyserProblem
         string message;
         public MoodAnalyser(string message)
         {
-            this.message = message;
+            this.message = message=null;
         }
         public MoodAnalyser() { }
         public string AnalyseMood()
         {
-            if (message.ToLower().Contains("happy"))
-                return "happy";
-            else
-                return "sad";
+            try
+            {
+                if (message.ToLower().Contains("happy"))
+                    return "happy";
+                else
+                    return "sad";
+            }
+            catch (NullReferenceException e)
+            {
+                return e.Message;
+            }
         }
     }
 }
