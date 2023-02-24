@@ -8,6 +8,7 @@ namespace MoodAnalyserTestProject
     public class MoodAnalyserTestClass
     {
         [TestMethod]
+
         [DataRow("I am in a sad mood", "sad")] 
         [DataRow("I am in a happy mood", "happy")]
         public void Given_Message_Should_Return_UserMood(string message, string expected)
@@ -27,19 +28,28 @@ namespace MoodAnalyserTestProject
         }
         [TestMethod]
         //[DataRow(null, "Object reference not set to an instance of an object.")]
-        [DataRow(null, "happy")]
-        public void Given_NullMessage_Should_Return_Exception(string message, string expected)
+        //[DataRow(null, "happy")]
+        public void Given_NullMessage_Should_Return_Exception()
         {
+            string message = null;
+            string expected = "Message is having null";
             //AAA Methodology
+            try
+            { 
+                //Arrange
+                MoodAnalyser mood = new MoodAnalyser(message);
 
-            //Arrange
-            MoodAnalyser mood = new MoodAnalyser(message);
+                //Act
+                //string actual = mood.AnalyseMood();
+                string actual = mood.CustomAnalyseMood();
 
-            //Act
-            string actual = mood.AnalyseMood();
-
-            //Assert
-            Assert.AreEqual(expected, actual);
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+            catch(CustomMoodAnalyserException ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
         }
     }
 }

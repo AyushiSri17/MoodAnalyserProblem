@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,14 +24,37 @@ namespace MoodAnalyserProblem
                 else
                     return "sad";
             }
-            catch (NullReferenceException )
-            {   
-                return "happy";
+            catch (NullReferenceException e)
+            {
+                //return "happy";
+                return e.Message;
             }
             catch (Exception e) 
             {
                 Console.WriteLine(e.Message);
                 return e.Message;
+            }
+        }
+        public string CustomAnalyseMood()
+        {
+            try
+            {
+                if (message.ToLower().Contains("happy"))
+                    return "happy";
+                else
+                    return "sad";
+            }
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine(ex.Message);
+                try
+                {
+                    throw new CustomMoodAnalyserException("Message is having null", CustomMoodAnalyserException.ExceptionTypes.NULL_MOOD);
+                }
+                catch(CustomMoodAnalyserException e)
+                { 
+                    return e.Message;
+                }
             }
         }
     }
