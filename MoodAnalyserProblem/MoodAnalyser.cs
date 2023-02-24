@@ -39,7 +39,18 @@ namespace MoodAnalyserProblem
         {
             try
             {
-                if (message.ToLower().Contains("happy"))
+                if (this.message.Equals(string.Empty))
+                {
+                    try
+                    {
+                        throw new CustomMoodAnalyserException("Mood is Empty", CustomMoodAnalyserException.ExceptionTypes.EMPTY_MOOD);
+                    }
+                    catch (CustomMoodAnalyserException e)
+                    {
+                        return e.Message;
+                    }
+                }
+                else if (message.ToLower().Contains("happy"))
                     return "happy";
                 else
                     return "sad";

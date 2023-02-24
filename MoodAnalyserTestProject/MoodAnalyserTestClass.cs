@@ -29,10 +29,10 @@ namespace MoodAnalyserTestProject
         [TestMethod]
         //[DataRow(null, "Object reference not set to an instance of an object.")]
         //[DataRow(null, "happy")]
-        public void Given_NullMessage_Should_Return_Exception()
+        [DataRow(null, "Message is having null")]
+        [DataRow("", "Mood is Empty")]
+        public void Given_NullMessage_Should_Return_Exception(string message,string expected)
         {
-            string message = null;
-            string expected = "Message is having null";
             //AAA Methodology
             try
             { 
