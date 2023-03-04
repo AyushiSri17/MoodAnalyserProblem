@@ -57,12 +57,12 @@ namespace MoodAnalyserTestProject
         [TestMethod]
         [TestCategory("Reflection")]
         //[DataRow("MoodAnalyserProblem.MoodAnalyser", "MoodAnalyser")]
-        //[DataRow("MoodAnalyserProblem.Contact", "Contact")]
-        [DataRow("MoodAnalyserProblem.MoodAnalyser", "Customer")]
+        [DataRow("MoodAnalyserProblem.Contact", "Contact")]
+        //[DataRow("MoodAnalyserProblem.MoodAnalyser", "Customer")]
         public void Given_MoodAnalyser_Class_Name_Should_Return_MoodAnalyser_Object(string className, string constructor)
         {
-            //string expectedMessage = "Class not found";
-            string expectedMessage = "Constructor not found";
+            string expectedMessage = "Class not found";
+            //string expectedMessage = "Constructor not found";
             try
             {
                 object expected = new MoodAnalyser();
@@ -80,7 +80,7 @@ namespace MoodAnalyserTestProject
         //[DataRow("MoodAnalyser", "MoodAnalyser")]//because in if either pass name of full name both are acceptable
         //[DataRow("MoodAnalyserProblem.Contact", "Contact")]
         [DataRow("MoodAnalyserProblem.MoodAnalyser", "Customer")]
-        public void Given_MoodAnalyserWithMessage_Using_Reflaction_Return_ParameterizedConstructor(string className, string constructor)
+        public void Given_MoodAnalyserWithMessage_Using_Reflection_Return_ParameterizedConstructor(string className, string constructor)
         {
             string message = "I am in a happy mood";
             //string expectedMessage = "Class not found";
@@ -95,6 +95,23 @@ namespace MoodAnalyserTestProject
             catch (CustomMoodAnalyserException ex)
             {
                 Assert.AreEqual(expectedMessage, ex.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("Reflection")]
+        [DataRow("I am i happy mood", "AnalyseMood", "happy")]
+        [DataRow("I am i happy mood", "Analyse", "Method not found")]
+        public void Given_MoodAnalyser_Using_Reflaction_Invoke_Method(string message, string methodName, string expected)
+        {
+            try
+            {
+                string actual = MoodAnalyserFactory.InvokeAnalyseMethod(message, methodName);
+                Assert.AreEqual(expected, actual);
+            }
+            catch (CustomMoodAnalyserException ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
             }
         }
     }
