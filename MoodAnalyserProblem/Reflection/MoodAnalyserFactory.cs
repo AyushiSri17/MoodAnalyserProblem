@@ -64,7 +64,7 @@ namespace MoodAnalyserProblem.Reflection
                 Type type = typeof(MoodAnalyser);
                 object moodAnalyseObject = CreateMoodAnalyserObjectWithParameterizedConstructor("MoodAnalyserProblem.MoodAnalyser", "MoodAnalyser", message);
                 MethodInfo methodInfo = type.GetMethod(methodName);
-                object info = methodInfo.Invoke(moodAnalyseObject, null);//it will 
+                object info = methodInfo.Invoke(moodAnalyseObject, null);//it will invoke method and store the return value
                 return info.ToString();
             }
             catch (CustomMoodAnalyserException ex)
@@ -81,6 +81,26 @@ namespace MoodAnalyserProblem.Reflection
             catch (Exception)
             {
                 throw new CustomMoodAnalyserException("Method not found", CustomMoodAnalyserException.ExceptionTypes.NO_SUCH_METHOD);
+            }
+        }
+
+        public static string DynamicSetField(string message, string fieldName)
+        {
+            try
+            {
+                MoodAnalyser moodAnalyser = new MoodAnalyser();
+                Type type = typeof(MoodAnalyser);
+                FieldInfo field = type.GetField(fieldName, BindingFlags.Public | BindingFlags.Instance);                
+                field.SetValue(moodAnalyser, message);
+                if (message == null)
+                {
+                    throw new CustomMoodAnalyserException("Message should not be null", CustomMoodAnalyserException.ExceptionTypes.NULL_MESSAGE);
+                }
+                return moodAnalyser.message;//return should be the last executing statement
+            }
+            catch (NullReferenceException)
+            {
+                throw new CustomMoodAnalyserException("Field is not found", CustomMoodAnalyserException.ExceptionTypes.NO_SUCH_FIELD);
             }
         }
     }

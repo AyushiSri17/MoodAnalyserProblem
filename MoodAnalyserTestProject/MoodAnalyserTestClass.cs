@@ -8,8 +8,9 @@ namespace MoodAnalyserTestProject
     [TestClass]
     public class MoodAnalyserTestClass
     {
-        [TestCategory("Mood")]
+        // UC_1.1 & UC-1.2        
         [TestMethod]
+        [TestCategory("Mood")]
         [DataRow("I am in a sad mood", "sad")]
         [DataRow("I am in a happy mood", "happy")]
         public void Given_Message_Should_Return_UserMood(string message, string expected)
@@ -27,8 +28,9 @@ namespace MoodAnalyserTestProject
             //Assert
             Assert.AreEqual(expected, actual);
         }
-        [TestCategory("Exception")]
+        // UC-2.1 & UC-3.1 & UC-3.2
         [TestMethod]
+        [TestCategory("Exception")]
         //[DataRow(null, "Object reference not set to an instance of an object.")]
         //[DataRow(null, "happy")]
         [DataRow(null, "Message is having null")]
@@ -53,7 +55,7 @@ namespace MoodAnalyserTestProject
                 Assert.AreEqual(expected, ex.Message);
             }
         }
-
+        //UC-4.1 & UC-4.2 & 4.3
         [TestMethod]
         [TestCategory("Reflection")]
         //[DataRow("MoodAnalyserProblem.MoodAnalyser", "MoodAnalyser")]
@@ -74,7 +76,7 @@ namespace MoodAnalyserTestProject
                 Assert.AreEqual(expectedMessage, ex.Message);
             }
         }
-
+        //UC-5.1 & UC-5.2 & UC-5.3
         [TestMethod]
         [TestCategory("Reflection")]
         //[DataRow("MoodAnalyser", "MoodAnalyser")]//because in if either pass name of full name both are acceptable
@@ -97,7 +99,7 @@ namespace MoodAnalyserTestProject
                 Assert.AreEqual(expectedMessage, ex.Message);
             }
         }
-
+        //UC-6.1 & UC-6.2
         [TestMethod]
         [TestCategory("Reflection")]
         [DataRow("I am i happy mood", "AnalyseMood", "happy")]
@@ -112,6 +114,72 @@ namespace MoodAnalyserTestProject
             catch (CustomMoodAnalyserException ex)
             {
                 Assert.AreEqual(expected, ex.Message);
+            }
+        }
+        //UC-7.1
+        [TestMethod]
+        [TestCategory("Reflection")]
+        public void Given_Happy_Message_With_Reflector_Should_Return_Happy()
+        {
+            string expected = "Message should not be null";
+            try
+            {
+                string result = MoodAnalyserFactory.DynamicSetField("happy", "message");//set happy as message
+                Assert.AreEqual("happy", result);
+            }
+            catch (CustomMoodAnalyserException ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
+        }
+        //UC-7.2
+        [TestMethod]
+        [TestCategory("Reflection")]
+        public void Set_Field_When_ImproperShould_ThrowException_NoSuchField()
+        {
+            string expected = "Field is Not Found";
+            try
+            {
+                string result = MoodAnalyserFactory.DynamicSetField("Happy", "customer");
+            }
+            catch (CustomMoodAnalyserException ex)
+            {
+                //Assert.AreEqual(expected, ex.Message);
+                expected.Equals(ex.Message);
+            }
+        }
+        //UC-7.3
+        [TestMethod]
+        [TestCategory("Reflection")]
+        public void Set_Null_Message_Should_Throw_Exception()
+        {
+            string expected = "Message should not be null";
+            try
+            {
+                string result = MoodAnalyserFactory.DynamicSetField(null, "message");
+            }
+            catch (CustomMoodAnalyserException ex)
+            {
+                Assert.AreEqual(expected, ex.Message);//Compare object type
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("Reflection")]
+        //[DataRow("happy","message")]
+        //[DataRow("happy", "customer")]
+        [DataRow("null", "message")]
+        public void Combine_Dynamic_Reflection(string input,string instance)
+        {
+            //string expected = "Field is Not Found";
+            string expected = "Message should not be null";
+            try
+            {
+                string result = MoodAnalyserFactory.DynamicSetField(input,instance);
+            }
+            catch (CustomMoodAnalyserException ex)
+            {
+                expected.Equals(ex.Message);//Compare the values
             }
         }
     }
