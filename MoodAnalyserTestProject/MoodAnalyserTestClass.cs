@@ -57,9 +57,8 @@ namespace MoodAnalyserTestProject
         [TestMethod]
         [TestCategory("Reflection")]
         //[DataRow("MoodAnalyserProblem.MoodAnalyser", "MoodAnalyser")]
-        //[DataRow("MoodAnalyserProject.Contact", "Contact")]
-        [DataRow("MoodAnalyserProject.MoodAnalyser", "Customer")]
-
+        //[DataRow("MoodAnalyserProblem.Contact", "Contact")]
+        [DataRow("MoodAnalyserProblem.MoodAnalyser", "Customer")]
         public void Given_MoodAnalyser_Class_Name_Should_Return_MoodAnalyser_Object(string className, string constructor)
         {
             //string expectedMessage = "Class not found";
@@ -74,6 +73,29 @@ namespace MoodAnalyserTestProject
             {
                 Assert.AreEqual(expectedMessage, ex.Message);
             }
-        } 
+        }
+
+        [TestMethod]
+        [TestCategory("Reflection")]
+        //[DataRow("MoodAnalyser", "MoodAnalyser")]//because in if either pass name of full name both are acceptable
+        //[DataRow("MoodAnalyserProblem.Contact", "Contact")]
+        [DataRow("MoodAnalyserProblem.MoodAnalyser", "Customer")]
+        public void Given_MoodAnalyserWithMessage_Using_Reflaction_Return_ParameterizedConstructor(string className, string constructor)
+        {
+            string message = "I am in a happy mood";
+            //string expectedMessage = "Class not found";
+            string expectedMessage = "Constructor not found";
+            try
+            {
+                //MoodAnalyserFactory factory=new MoodAnalyser();
+                MoodAnalyser expected = new MoodAnalyser(message);
+                object actual = MoodAnalyserFactory.CreateMoodAnalyserObjectWithParameterizedConstructor(className, constructor, message);
+                expected.Equals(actual);
+            }
+            catch (CustomMoodAnalyserException ex)
+            {
+                Assert.AreEqual(expectedMessage, ex.Message);
+            }
+        }
     }
 }
